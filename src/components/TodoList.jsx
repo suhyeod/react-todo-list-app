@@ -1,7 +1,7 @@
 import TodoItem from "./TodoItem";
 import "./TodoList.css"
 
-function TodoList(){
+function TodoList({data}){
     return(
         <div className="todo-list">
             <div className="todo-header">
@@ -12,6 +12,9 @@ function TodoList(){
                 </button>
             </div>
             <div>
+                {data.map((item)=>
+                <TodoItem text={item.text} completed={item.completed} />
+                )}
                 <TodoItem />
             </div>
         </div>
