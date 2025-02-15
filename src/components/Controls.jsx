@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './Controls.css'
 
 
-function Controls({onSubmit}){
+function Controls({filterType , onChabgeFilterType , onSubmit}){
     const [text , setText]= useState("");
     const handleChange = (e) => {
         setText(e.target.value)
@@ -18,10 +18,13 @@ function Controls({onSubmit}){
             <button className='button' onClick={handleSubmit}>
                 추가
             </button>
-            <select name="" id="" className='select'>
-                <option value="">전체</option>
-                <option value="">할 일</option>
-                <option value="">완료</option>
+            <select name="" id="" className='select'
+            value={filterType}
+            onChange={e => onChabgeFilterType(e.target.value)}
+            >
+                <option value="ALL">전체</option>
+                <option value="TODO">할 일</option>
+                <option value="COMPLETED">완료</option>
             </select>
         </div>
     )

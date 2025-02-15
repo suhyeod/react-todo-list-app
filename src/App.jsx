@@ -8,6 +8,10 @@ import TodoList from "./components/TodoList";
 function App() {
   const idRef = useRef(0);
   const [list , setList] = useState([]);
+  const [filterType , setFilterType] = useState("ALL");
+  const handleChangeFilterType = (type) => {
+    setFilterType(type);
+  }
   const handleSubmit = (value) =>{
     setList(prevList => prevList.concat({
       id : (idRef.current +=1) ,
@@ -24,9 +28,11 @@ function App() {
       return item
     }))
   };
+
   const handleToggleAll = (flag) => {
     setList(prevList => prevList.map(item => ({...item , completed : flag})))
   };
+  
   const handleDelete = (id) => {
     setList(prevList => prevList.filter(item => item.id !== id ));
   };
@@ -35,17 +41,40 @@ function App() {
     setList(prevList => prevList.filter((item)=> !item.completed))
   }
 
+  const handleUpdate = (id , text) => {
+    setList(prevList => prevList.map(item => {
+      if(item.id === id){
+        return {...item , text }
+      }
+      return item;
+    }))
+  }
+
+  const filteredList = list.filter(item => {
+    if(filterType === "ALL"){
+      return item;
+    } else if (filterType === "TODO"){
+      return !item.completed
+    }
+    return item.completed
+  })
+
   return (
     <div>
       <Layout>
         <Title />
-        <Controls onSubmit={handleSubmit}/>
+        <Controls 
+        onSubmit={handleSubmit}
+        filterType = {filterType}
+        onChabgeFilterType = {handleChangeFilterType}
+        />
         <TodoList 
-        data = {list} 
+        data = {filteredList} 
         onToggle ={handleToggle} 
         onToggleAll = {handleToggleAll} 
         onDelete ={handleDelete} 
         onDeleteCompleted = {handleDeleteCompleted}
+        onUpdate = {handleUpdate}
         />
       </Layout>
     </div>

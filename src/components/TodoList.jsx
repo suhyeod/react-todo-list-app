@@ -1,7 +1,14 @@
 import TodoItem from "./TodoItem";
 import "./TodoList.css"
 
-function TodoList({data, onToggle, onToggleAll, onDelete , onDeleteCompleted}) {
+function TodoList({
+    data, 
+    onToggle, 
+    onToggleAll, 
+    onDelete,
+    onDeleteCompleted,
+    onUpdate ,
+    }) {
     const isAllCompleted = data.lenth > 0 && data.every((item) => item.completed);
     const completedCount = data
         .filter((item) => item.completed)
@@ -28,10 +35,12 @@ function TodoList({data, onToggle, onToggleAll, onDelete , onDeleteCompleted}) {
                 {
                     data.map(
                         (item) => <TodoItem
+                            id = {item.id}
                             text = {item.text}
                             completed = {item.completed}
                             onToggle = {() => onToggle(item.id)}
-                            onDelete = {()=> onDelete(item.id)}/>
+                            onDelete = {() => onDelete(item.id)}
+                            onUpdate = {onUpdate}/>
                     )
                 }
             </div>
